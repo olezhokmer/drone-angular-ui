@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    justify-content: center;
+    margin: 8em 0em;
+  }
+
+mat-card-title {
+    padding: 1em;
+}
+mat-card-title,
+mat-card-content {
+    max-width: 20em;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}

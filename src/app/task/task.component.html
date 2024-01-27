@@ -1,0 +1,129 @@
+
+
+
+  <div class="container">
+    <div class="chart" #chartSection>
+      <svg class="chart-svg" #chart></svg>
+    </div>
+      
+        <mat-card class="additional-info">
+          <mat-card-content>
+            <div *ngIf="targets">
+              <p>Current targets number is {{ targets.length }}. You can download the targets below.</p>
+              <button mat-raised-button color="primary" (click)="downloadFigures()"><mat-icon>download</mat-icon> Download CSV</button>
+            </div>
+            <div *ngIf="chartProps">
+              <p>Area width is {{ chartProps.areaWidth }}. Area height is {{ chartProps.areaHeight }}.</p>
+            </div>
+            <div>Drone path details:</div>
+            <div *ngIf="!solution">Nothing to show. Please generate a drone path first.</div>
+
+              <div *ngIf="solution">
+                <p>
+                  Drone started its trip from point ({{ solution.start.start.x }}, {{ solution.start.start.y }}), then it reached the zone border on the right at point ({{ solution.start.end.x }}, {{ solution.start.end.y }}), then it flies back to the left border and finishes its trip at point ({{ solution.finish.start.x }}, {{ solution.finish.start.y }}).
+                </p>
+                
+                <p *ngIf="solution.intersected.length">
+                  The object indexes observed by a drone are {{ solution.intersected }}.
+                </p>
+
+                <p *ngIf="!solution.intersected.length">
+                  Drone did not observe any targets.
+                </p>
+
+                <p>
+                  Drone observed {{ solution.percent }}% of all the targets.
+                </p>
+
+                <p *ngIf="solution.start.chromosome">
+                  Path from left to the right border is y = {{ solution.start.chromosome.tan }} * x + {{ solution.start.chromosome.point.y }}
+                </p>
+                <p *ngIf="solution.finish.chromosome">
+                  Path from left to the right border is y = {{ solution.finish.chromosome.tan }} * x + {{ solution.finish.chromosome.point.y }}
+                </p>
+
+              </div>
+            <button type="submit" (click)="openSaveSolution()" color="warn" mat-raised-button><mat-icon>save_as</mat-icon>Save solution</button>
+            <button mat-raised-button color="primary" (click)="downloadFigures()"><mat-icon>download</mat-icon> Download JSON file</button>
+          </mat-card-content>
+        </mat-card>
+
+      <mat-card>
+        <mat-card-title>
+            Generate random targets
+          </mat-card-title>
+        <mat-card-content>
+
+            <form [formGroup]="randomTargetsForm" (ngSubmit)="randomTargetsFormSubmit()">
+                <mat-form-field>
+                  <mat-label>Targets number</mat-label>
+                  <input matInput type="number" formControlName="num" placeholder="Targets number" required>
+                </mat-form-field>
+          
+                <mat-form-field>
+                    <mat-label>Area width</mat-label>
+                    <input matInput type="number" formControlName="xMax" placeholder="Area width" required>
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <mat-label>Area height</mat-label>
+                    <input matInput type="number" formControlName="yMax" placeholder="Area height" required>
+                  </mat-form-field>
+        
+                <div>
+                  <button type="submit" color="warn" mat-raised-button><mat-icon>mode_standby</mat-icon>Generate targets</button>
+                </div>
+              </form>
+              <button mat-raised-button color="primary" (click)="downloadFigures()"><mat-icon>download</mat-icon> Download CSV</button>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- <mat-card>
+        <mat-card-title>
+            Import targets
+          </mat-card-title>
+        <mat-card-content>
+
+            <form [formGroup]="xyTargetsForm" (ngSubmit)="xyTargetsFormSubmit()">
+                <mat-form-field>
+                    <mat-label>Area width</mat-label>
+                    <input matInput type="number" formControlName="xMax" placeholder="Area width">
+                  </mat-form-field>
+
+                  <mat-form-field>
+                    <mat-label>Area height</mat-label>
+                    <input matInput type="number" formControlName="yMax" placeholder="Area height">
+                  </mat-form-field>
+        
+                <div>
+                  <mat-form-field appearance="fill">
+                    <mat-label><mat-icon>upload_file</mat-icon> Import CSV</mat-label>
+                    <ngx-mat-file-input required></ngx-mat-file-input>
+                  </mat-form-field>
+                  <button type="submit" mat-raised-button>Submit</button>
+                </div>
+              </form>
+        </mat-card-content>
+      </mat-card> -->
+
+      <mat-card>
+        <mat-card-title>
+            Find optimal drone path
+          </mat-card-title>
+        <mat-card-content>
+          <form [formGroup]="findPathForm" (ngSubmit)="findPathFormSubmit()">
+            <mat-form-field>
+              <mat-label>Algorithm</mat-label>
+              <mat-select formControlName="algorithm" placeholder="Algorithm" matNativeControl required>
+                <mat-option value = "1">Genetic algorithm</mat-option>
+              </mat-select>
+
+            </mat-form-field>
+    
+            <div>
+              <button type="submit" color="warn" mat-raised-button><mat-icon>straight</mat-icon>Find path</button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+  </div>

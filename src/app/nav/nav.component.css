@@ -1,0 +1,9 @@
+.profile button {
+    margin: 0.2em;
+}
+
+@media (max-width: 600px) {
+    #profile-text {
+      display: none;
+    }
+  }

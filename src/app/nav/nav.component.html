@@ -1,0 +1,31 @@
+<nav>
+    <mat-toolbar>
+      <div>
+        <button mat-button routerLink="/">
+          Drones App
+        </button>
+        <button mat-button routerLink="/">
+          <mat-icon>home</mat-icon> Home
+        </button>
+      </div>
+      <div class="spacer"></div>
+      <div class="profile">
+        <button *ngIf="!profile" mat-button routerLink="/login">
+            <mat-icon>login</mat-icon> Login
+          </button>
+          <button *ngIf="!profile" mat-raised-button color="warn" routerLink="/sign-up">
+              <mat-icon>person</mat-icon> Sign Up
+            </button>
+        <button *ngIf="profile" mat-button [matMenuTriggerFor]="menu">
+            <span id="profile-text">{{ profile.firstName }} {{ profile.lastName }} ({{ profile.email }})</span>
+            <mat-icon>account_circle</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item><mat-icon>settings</mat-icon> Settings</button>
+            <button mat-menu-item><mat-icon>co_present</mat-icon> My solutions</button>
+            <button mat-menu-item><mat-icon>share</mat-icon> Shared solutions</button>
+            <button mat-menu-item color="warn" (click)="logout()"><mat-icon>logout</mat-icon> Log out</button>
+          </mat-menu>
+      </div>
+    </mat-toolbar>
+  </nav>
